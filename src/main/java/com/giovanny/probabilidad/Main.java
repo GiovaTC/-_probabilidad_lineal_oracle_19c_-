@@ -45,9 +45,31 @@ public class Main extends JFrame {
         
         JButton btnCalcular = new JButton("calcular, graficar y guardar");
         btnCalcular.addActionListener(e -> calcular());
-        
-        
-    }
+
+        c.gridx = 0;
+        c.gridy = 3;
+        c.gridwidth = 2;
+        c.fill = GridBagConstraints.HORIZONTAL;
+        formulario.add(btnCalcular, c);
+
+        JPanel panelResultado = new JPanel(new BorderLayout(8, 8));
+        panelResultado.setBorder(BorderFactory.createTitledBorder("resultado"));
+
+        lblResultado.setVerticalAlignment(SwingConstants.TOP);
+        lblResultado.setFont(new Font("SansSerif", Font.PLAIN, 14));
+        panelResultado.add(lblResultado, BorderLayout.CENTER);
+
+        JPanel izquierda = new JPanel(new BorderLayout(8, 8));
+        izquierda.setPreferredSize(new Dimension(285,  500));
+        izquierda.add(formulario, BorderLayout.NORTH);
+        izquierda.add(panelResultado, BorderLayout.CENTER);
+
+        setLayout(new BorderLayout(10, 10));
+        add(izquierda,  BorderLayout.WEST);
+        add(grafica, BorderLayout.CENTER);
+
+        ((JComponent) getContentPane()).setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+    }   
 
     private void agregarCampo(JPanel formulario, GridBagConstraints c, int i, String s, JTextField txtFavorables) {
     }
