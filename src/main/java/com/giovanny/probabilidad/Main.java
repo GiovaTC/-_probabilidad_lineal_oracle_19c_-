@@ -69,12 +69,139 @@ public class Main extends JFrame {
         add(grafica, BorderLayout.CENTER);
 
         ((JComponent) getContentPane()).setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-    }   
+    }
 
-    private void agregarCampo(JPanel formulario, GridBagConstraints c, int i, String s, JTextField txtFavorables) {
+    private void agregarCampo(JPanel panel,
+                              GridBagConstraints c,
+                              int fila,
+                              String etiqueta,
+                              JTextField campo)
+    {
+        c.gridwidth = 1;
+        c.fill = GridBagConstraints.NONE;
+
+        c.gridx = 0;
+        c.gridy = fila;
+        panel.add(new JLabel(etiqueta), c);
+
+        c.gridx = 1;
+        panel.add(campo, c);
     }
 
     private void calcular() {
-        
+        try {
+            long favorables = Long.parseLong(txtFavorables.getText().trim());
+
+            long posibles = Long.parseLong(txtPosibles.getText().trim());
+
+            double intercepto =
+                    Double.parseDouble(txtIntercepto.getText().trim());
+
+            String clasificacion;
+
+            /*
+            * tres niveles de condicionales:
+            * 1. verificar que los casos posibles sean mayores que cero.
+            * 2. verificar que los casos favorables esten en el rango.
+            * 3. clasificar la probabilidad calculada.
+            * */
+            if (posibles > 0) {
+                if (favorables >= 0 && favorables <= posibles) {
+                    double probabilidad = (double) favorables / posibles;
+
+                    if (probabilidad == 0.0) {
+                        clasificacion = "evento imposible";
+                    } else if (probabilidad < 0.5) {
+                        clasificacion = "probabilidad baja";
+                    } else {
+                        clasificacion = "probabilidad media/alta";
+                    }
+
+                    grafica.actualizarFuncion(
+                            probabilidad,
+                            intercepto
+                    );
+
+                    lblResultado.setText(
+                            "<html>"
+                                    + "<b>Probabilidad:</b> "
+                                    + String.format("%.4f", probabilidad)
+                                    + "<br>"
+                                    + "<b>Porcentaje:</b> "
+                                    + String.format(
+                                    "%.2f%%", probabilidad * 100
+                            )
+                                    + "<br>"
+                                    + "<b>Clasificación:</b> "
+                                    + clasificacion
+                                    + "<br>"
+                                    + "<b>Función:</b> f(x) = "
+                                    + String.format("%.4f", probabilidad)
+                                    + "x + "
+                                    + String.format("%.4f", intercepto)
+                                    + "<br><br>"
+                                    + "Guardando resultado en Oracle 19c..."
+                                    + "</html>"
+                    );
+
+                    try {
+                        dao.guardar(
+                                favorables,
+                                posibles,
+                                probabilidad,
+                                clasificacion,
+                                probabilidad,
+                                intercepto
+                        );
+
+                        lblResultado.setText(
+                                lblResultado.getText().replace(
+                                        "Guardando resultado en Oracle 19c...",
+                                        "Registro guardado en Oracle 19c."
+                                )
+                        );
+                    } catch (SQLException ex) {
+                        JOptionPane.showMessageDialog(
+                                this,
+                                "El cálculo se realizó, pero no se pudo "
+                                        + "guardar en Oracle. Verifica la conexión, "
+                                        + "el servicio y la tabla.\n\n"
+                                        + ex.getMessage(),
+                                "Error de base de datos",
+                                JOptionPane.ERROR_MESSAGE
+                        );
+                    }
+                } else {
+                    mostrarError(
+                            "Los casos favorables deben estar entre "
+                                    + "0 y los casos posibles."
+                    );
+                }
+            } else {
+                mostrarError(
+                        "Los casos posibles deben ser mayores que cero."
+                );
+            }
+        } catch (NumberFormatException ex) {
+            mostrarError(
+                    "Ingresa números enteros para los casos y un número "
+                            + "válido para el intercepto."
+            );
+        }
     }
-}
+
+    private void mostrarError(String mensaje) {
+        JOptionPane.showMessageDialog(
+                this,
+                mensaje,
+                "Datos inválidos",
+                JOptionPane.WARNING_MESSAGE
+        );
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(
+                () -> new Main().setVisible(true)
+        );
+    }
+}   
