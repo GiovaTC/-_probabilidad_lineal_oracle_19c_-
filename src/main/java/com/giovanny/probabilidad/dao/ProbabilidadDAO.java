@@ -37,4 +37,4 @@ public class ProbabilidadDAO {
             ps.executeUpdate();
         }
     }
-}   
+}
