@@ -2,6 +2,8 @@
 
 <img width="1254" height="1254" alt="image" src="https://github.com/user-attachments/assets/206176ca-ace0-484e-9ffe-15a7da3c1c53" />  
 
+<img width="2550" height="1079" alt="image" src="https://github.com/user-attachments/assets/45df06b4-be61-463f-b1e8-48f2f4c66af2" />  
+
 ```
 
 Probabilidad y función lineal con Java 21, IntelliJ IDEA y Oracle 19c
