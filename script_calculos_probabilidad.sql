@@ -19,3 +19,6 @@ CREATE TABLE calculos_probabilidad (
 );
 
 COMMIT;
+
+SELECT id, casos_favorables, casos_posibles, probabilidad, clasificacion, pendiente, intercepto, fecha_registro
+FROM calculos_probabilidad ORDER BY id DESC;
