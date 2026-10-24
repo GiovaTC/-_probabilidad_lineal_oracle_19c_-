@@ -1,17 +1,31 @@
 package com.giovanny.probabilidad;
 
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
-public class Main {
-    public static void main(String[] args) {
-        //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
-        // to see how IntelliJ IDEA suggests fixing it.
-        System.out.printf("Hello and welcome!");
+import com.giovanny.probabilidad.dao.ProbabilidadDAO;
+import com.giovanny.probabilidad.ui.GraficaLinealPanel;
 
-        for (int i = 1; i <= 5; i++) {
-            //TIP Press <shortcut actionId="Debug"/> to start debugging your code. We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/> breakpoint
-            // for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.
-            System.out.println("i = " + i);
-        }
+import javax.swing.*;
+import java.awt.*;
+import java.sql.SQLException;
+
+public class Main extends JFrame {
+
+    private final JTextField txtFavorables = new JTextField("3", 10);
+    private final JTextField txtPosibles = new JTextField("10", 10);
+    private final JTextField txtIntercepto = new JTextField("0", 10);
+
+    private final JLabel lblResultado = new JLabel("ingresa los datos y pulsa el boton.");
+
+    private final GraficaLinealPanel grafica = new GraficaLinealPanel();
+    private final ProbabilidadDAO dao = new ProbabilidadDAO();
+
+    public Main() {
+        setTitle("Probabilidad y funcion lineal - Oracle 19c");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setSize(900, 580);
+        setLocationRelativeTo(null);
+        construirInterfaz();
     }
+
+    private void construirInterfaz() {
+    }   
 }
