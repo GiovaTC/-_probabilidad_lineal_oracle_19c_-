@@ -20,6 +20,6 @@ public final class ConexionOracle {
 
     public static Connection obtenerConexion() throws SQLException
     {
-       return DriverManager.getConnection(URL, USUARIO, CLAVE); 
+       return DriverManager.getConnection(URL, USUARIO, CLAVE);
     }
 }
